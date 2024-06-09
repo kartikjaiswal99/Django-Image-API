@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import os
 from django.conf import settings
+from django.http import HttpRequest
 
 
 # http://127.0.0.1:8000/api/images/        //post image in this url 
@@ -30,7 +31,7 @@ class ImageViewSet(viewsets.ModelViewSet):
                                             param2=43, minRadius=1, maxRadius=40)
 
         response_data = {
-            "image": image.image.url,
+            "image": request.build_absolute_uri(image.image.url),
             "circles_detected": 0,
             "circles": []
         }
@@ -43,9 +44,12 @@ class ImageViewSet(viewsets.ModelViewSet):
                 response_data["circles"].append({"center": (a, b), "radius": r})
                 cv2.circle(img, (a, b), r, (0, 255, 0), 2)
                 cv2.circle(img, (a, b), 1, (0, 0, 255), 3)
-
+            
             output_path = os.path.join(settings.MEDIA_ROOT, 'store/images', f'detected_{os.path.basename(image.image.name)}')
             cv2.imwrite(output_path, img)
-            response_data["processed_image"] = settings.MEDIA_URL + 'store/images/' + f'detected_{os.path.basename(image.image.name)}'
-
+            detected_image_relative_path = f'store/images/detected_{os.path.basename(image.image.name)}'
+            image.detected_image = detected_image_relative_path
+            image.save()
+            response_data["processed_image"] = request.build_absolute_uri(settings.MEDIA_URL + detected_image_relative_path)
+            
         return Response(response_data, status=status.HTTP_200_OK)
