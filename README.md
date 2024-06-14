@@ -1,6 +1,6 @@
 # Image API with Django REST Framework
 
-This project demonstrates how to create an Image API using Django REST Framework (DRF) that supports uploading and deleting images. When an image is deleted from the database, it is also removed from the file directory.
+This project demonstrates an Image API using Django REST Framework (DRF) that supports uploading and deleting images. When an image is deleted from the database, it is also removed from the file directory.
 
 Additionally, this project includes a circle detection feature implemented by another contributor.
 
