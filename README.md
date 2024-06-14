@@ -12,7 +12,7 @@ Additionally, this project includes a circle detection feature implemented by an
 
 #### 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/kartikjaiswal99/Django-To-Do-List/
+   git clone https://github.com/kartikjaiswal99/Django-Image-API
   ```
 
 #### 2. Setup virtual environmend:
